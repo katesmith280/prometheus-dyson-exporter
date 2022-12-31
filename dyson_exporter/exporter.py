@@ -58,14 +58,17 @@ class DysonMetricsCollector():
                     device.connect(dyson_devices[section]["dyson_ip"])
 
                     for attr in dir(device): 
-                        val = getattr(device, attr)
-                        if not attr.startswith("_") and type(val) in [int, float, bool]:
-                            metrics.append(
+                        try:
+                            val = getattr(device, attr)
+                            if not attr.startswith("_") and type(val) in [int, float, bool]:
+                                metrics.append(
                                     {
                                         'name': attr, 
                                         'value': val
                                     }
                                 )
+                        except:
+                            logger.info(f"{dyson_devices[section]['dyson_serial']} does not have attribute {attr}")
                     device.disconnect()
                 except (DysonException, AttributeError) as e:
                     logger.error(f"Error when connecting to Dyson device: {e}")
@@ -82,14 +85,17 @@ class DysonMetricsCollector():
                 device.connect(self.dyson_ip)
 
                 for attr in dir(device): 
-                    val = getattr(device, attr)
-                    if not attr.startswith("_") and type(val) in [int, float, bool]:
-                        metrics.append(
+                    try:
+                        val = getattr(device, attr)
+                        if not attr.startswith("_") and type(val) in [int, float, bool]:
+                            metrics.append(
                                 {
                                     'name': attr, 
                                     'value': val
                                 }
                             )
+                    except:
+                        logger.info(f"{dyson_devices[section]['dyson_serial']} does not have attribute {attr}")
                 device.disconnect()
             except (DysonException, AttributeError) as e:
                 logger.error(f"Error when connecting to Dyson device: {e}")
