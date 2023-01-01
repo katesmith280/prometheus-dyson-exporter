@@ -2,7 +2,7 @@
 devices.ini
 
 # Docker
-docker-compose.yml
+# docker-compose.yml
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -1,0 +1,28 @@
+version: "3.8"
+services:
+  prometheus-dyson-exporter:
+    build: .
+    container_name: prometheus-dyson-exporter
+    ports:
+      - "9672:9672"
+    volumes:
+      - "./devices.ini:/config/devices.ini"
+    environment:
+      EXPORTER_PORT: "9672"
+      EXPORTER_LOG_LEVEL: "INFO"
+      CONFIG_PATH: "/config/devices.ini"
+      DYSON_SERIAL: ""
+      DYSON_CREDENTIAL: ""
+      DYSON_DEVICE_TYPE: ""
+      DYSON_IP: ""
+    restart: always
+  prometheus-server:
+    build: ./prometheus
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+
